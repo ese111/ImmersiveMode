@@ -21,45 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        if (VERSION.SDK_INT >= VERSION_CODES.R) {
-            val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-            windowInsetsController.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            window.decorView.setOnApplyWindowInsetsListener { view, windowInsets ->
-                if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
-                    || windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())
-                ) {
-                    binding.toggleFullscreenButton.setOnClickListener {
-                        window.statusBarColor = Color.TRANSPARENT
-                        val lFlags = window.decorView.systemUiVisibility
-                        window.decorView.systemUiVisibility = lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
-                        supportActionBar?.hide()
-                    }
-                } else {
-                    binding.toggleFullscreenButton.setOnClickListener {
-                        window.statusBarColor = ContextCompat.getColor(this, R.color.purple_500)
-                        val lFlags = window.decorView.systemUiVisibility
-                        window.decorView.systemUiVisibility = lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
-                        supportActionBar?.show()
-                    }
-                }
-                view.onApplyWindowInsets(windowInsets)
-            }
-        } else {
-            binding.toggleFullscreenButton.setOnClickListener {
-                if(window.decorView.systemUiVisibility != (View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)) {
-                    window.decorView.systemUiVisibility =
-                        (View.SYSTEM_UI_FLAG_IMMERSIVE // 가장 자리 스와이프 시 발동, 다만 앱에서는 인지 못함
-                                or View.SYSTEM_UI_FLAG_FULLSCREEN // 풀 스크린 모드
-                                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) // 하단 네비게이션 바 숨기기 플래그
-                    supportActionBar?.hide()
-                } else {
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-                    supportActionBar?.show()
-                }
-            }
-        }
     }
+
+
 }
