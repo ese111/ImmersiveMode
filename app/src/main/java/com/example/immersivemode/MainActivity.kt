@@ -7,6 +7,7 @@ import android.os.Build.VERSION_CODES
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         if (VERSION.SDK_INT >= VERSION_CODES.R) {
+            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
             windowInsetsController.systemBarsBehavior =
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -30,17 +32,11 @@ class MainActivity : AppCompatActivity() {
                     || windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())
                 ) {
                     binding.toggleFullscreenButton.setOnClickListener {
-                        window.statusBarColor = Color.TRANSPARENT
-                        val lFlags = window.decorView.systemUiVisibility
-                        window.decorView.systemUiVisibility = lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
                         supportActionBar?.hide()
                     }
                 } else {
                     binding.toggleFullscreenButton.setOnClickListener {
-                        window.statusBarColor = ContextCompat.getColor(this, R.color.purple_500)
-                        val lFlags = window.decorView.systemUiVisibility
-                        window.decorView.systemUiVisibility = lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
                         supportActionBar?.show()
                     }
